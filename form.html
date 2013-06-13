@@ -66,12 +66,32 @@
     // form Handler
     ; (function(formid) {
       var formobj = document.getElementById(formid)
+        // select element
+        , selector = function(parent, inputname) {
+          if(document.querySelector)
+            return parent.querySelector('[name='+inputname+']');
+
+          // support for browsers without querySelector (ie7, ie8 non standard)
+          var items = document.getElementsByName(inputname) // all doc inputs
+            , result = null;
+          for(var i=0; i < items.length; i++) {
+            var el = items[i].parentNode;
+            while(el != null) {
+              if(el.id === parent.id) { // stop if parent found
+                result = items[i]; // this is our input
+                break;
+              }
+              el = el.parentNode;
+            }
+          }
+          return result;
+        }
         // elements
         , form = {
-            name: formobj.querySelector("[name=name]"),
-            mail: formobj.querySelector("[name=mail]"),
-            phone: formobj.querySelector("[name=phone]"),
-            terms: formobj.querySelector("[name=terms]")
+            name  : selector(formobj, 'name'),
+            mail  : selector(formobj, 'mail'),
+            phone : selector(formobj, 'phone'),
+            terms : selector(formobj, 'terms')
         }
         // validation functions
         , valid = {
