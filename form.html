@@ -12,6 +12,8 @@
     }
     h1 { border-bottom:1px solid black }
     fieldset { margin:0; padding:0; border:0 }
+
+    .msg-error { color:red; display:none }
   </style>
 </head>
 <body>
@@ -21,11 +23,13 @@
       <p>
         <label> Name: 
           <input type="text" name="name" placeholder="Your Name"/>
+          <span class="msg-error">* at least 3 characters</span>
         </label>
       </p>
       <p>
         <label> eMail: 
           <input type="text" name="mail" placeholder="Your Mail"/>
+          <span class="msg-error">* invalid mail address</span>
         </label>
       </p>
       <p>
@@ -55,6 +59,19 @@
             phone: formobj.querySelector("[name=phone]"),
             terms: formobj.querySelector("[name=terms]")
           };
+
+      // on input name blur
+      form.name.onblur = function() {
+        this.nextElementSibling.style.display = !(this.value.length >= 3) ? 
+            'inline' : 'none';
+      };
+
+      // on input mail blur
+      form.mail.onblur = function() {
+        var regmail = /^([a-z0-9_\+\.-]+)@([a-z0-9_\.-]+)\.([a-z]{2,6})$/i;
+        this.nextElementSibling.style.display = !((regmail).test(this.value)) ? 
+            'inline' : 'none';
+      };
 
       // on form submit event handler
       formobj.onsubmit = function() {
