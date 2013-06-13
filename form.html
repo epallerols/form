@@ -25,7 +25,7 @@
     button:hover { background: #E6D833 }
     p { overflow:auto; width: 100% }
     .textinput { float:right; min-width: 50% }
-    .msg-error { color:red; display:none }
+    .msg-error { color:red; display:none; font-size:0.8em }
   </style>
 </head>
 <body>
@@ -87,8 +87,16 @@
         // el: param for display error
         // show: true if error must be displayed
         cerror = function(el, show) {
-            el.previousElementSibling.style.display = (show === true) ?
-                'inline' : 'none';
+          var prev = el.previousElementSibling;
+          // support for ie8 and ie7 (slower method)
+          if(!prev) {
+            var n = el.previousSibling;
+            while(n.nodeType != 1) {
+              n = n.previousSibling;
+            }
+            prev = n;
+          }
+          prev.style.display = (show === true) ? 'inline' : 'none';
         }
       ;
 
