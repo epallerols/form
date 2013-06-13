@@ -42,6 +42,7 @@
       <p>
         <label>I accept the TandC 
           <input type="checkbox" name="terms" value="accepted"/>
+          <span class="msg-error">* must accept TandC</span>
         </label>
       </p>
     </fieldset>
@@ -69,23 +70,33 @@
               var regm = /^([a-z0-9_\+\.-]+)@([a-z0-9_\.-]+)\.([a-z]{2,6})$/i;
               return regm.test(text);
             }
+        },
+        // Display error if necessary
+        // el: param for display error
+        // show: true if error must be displayed
+        cerror = function(el, show) {
+            el.nextElementSibling.style.display = (show === true) ?
+                'inline' : 'none';
         }
       ;
 
       // on input name blur
       form.name.onblur = function() {
-        this.nextElementSibling.style.display = !valid.name(this.value) ? 
-            'inline' : 'none';
+        cerror(this, !valid.name(this.value));
       };
 
       // on input mail blur
       form.mail.onblur = function() {
-        this.nextElementSibling.style.display = !valid.mail(this.value) ? 
-            'inline' : 'none';
+        cerror(this, !valid.mail(this.value));
       };
 
       // on form submit event handler
       formobj.onsubmit = function() {
+        // display error messages if needed
+        cerror(form.name, !valid.name(form.name.value));
+        cerror(form.mail, !valid.mail(form.mail.value));
+        cerror(form.terms, !form.terms.checked);
+
         return valid.name(form.name.value) && valid.mail(form.mail.value) 
             && form.terms.checked;
       };
