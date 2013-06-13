@@ -12,7 +12,19 @@
     }
     h1 { border-bottom:1px solid black }
     fieldset { margin:0; padding:0; border:0 }
-
+    button {
+      color:#000;
+      padding:8px 14px;
+      background:#D6D800;
+      -moz-border-radius:4px;
+      -webkit-border-radius:4px;
+      border-radius:4px;
+      border:1px solid #BCC505;
+      cursor:pointer
+    }
+    button:hover { background: #E6D833 }
+    p { overflow:auto; width: 100% }
+    .textinput { float:right; min-width: 50% }
     .msg-error { color:red; display:none }
   </style>
 </head>
@@ -22,27 +34,27 @@
     <fieldset>
       <p>
         <label> Name: 
-          <input type="text" name="name" placeholder="Your Name"/>
           <span class="msg-error">* at least 3 characters</span>
+          <input type="text" name="name" class="textinput" placeholder="Your Name"/>
         </label>
       </p>
       <p>
         <label> eMail: 
-          <input type="text" name="mail" placeholder="Your Mail"/>
           <span class="msg-error">* invalid mail address</span>
+          <input type="text" name="mail" class="textinput" placeholder="Your Mail"/>
         </label>
       </p>
       <p>
         <label> Phone: 
-          <input type="text" name="phone" placeholder="e.g. 40 343434"/>
+          <input type="text" name="phone" class="textinput" placeholder="e.g. 40 343434"/>
         </label>
       </p>
     </fieldset>
     <fieldset>
       <p>
         <label>I accept the TandC 
+          <span class="msg-error">*</span>
           <input type="checkbox" name="terms" value="accepted"/>
-          <span class="msg-error">* must accept TandC</span>
         </label>
       </p>
     </fieldset>
@@ -75,7 +87,7 @@
         // el: param for display error
         // show: true if error must be displayed
         cerror = function(el, show) {
-            el.nextElementSibling.style.display = (show === true) ?
+            el.previousElementSibling.style.display = (show === true) ?
                 'inline' : 'none';
         }
       ;
