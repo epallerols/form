@@ -16,7 +16,7 @@
 </head>
 <body>
   <h1>My lovely Form</h1>
-  <form method="post" action="do-login.html" accept-charset="UTF-8">
+  <form id="myform" method="post" action="do-login.html" accept-charset="UTF-8">
     <fieldset>
       <p>
         <label> Name: 
@@ -25,12 +25,12 @@
       </p>
       <p>
         <label> eMail: 
-          <input type="text" name="name" placeholder="Your Mail"/>
+          <input type="text" name="mail" placeholder="Your Mail"/>
         </label>
       </p>
       <p>
         <label> Phone: 
-          <input type="text" name="name" placeholder="e.g. 40 343434"/>
+          <input type="text" name="phone" placeholder="e.g. 40 343434"/>
         </label>
       </p>
     </fieldset>
@@ -45,6 +45,24 @@
       <button type="submit" name="submit">Send me</button>
     </p>
   </form>
-  <script></script>
+  <script>
+    // form Handler
+    ; (function(formid) {
+      var formobj = document.getElementById(formid)
+        , form = {
+            name: formobj.querySelector("[name=name]"),
+            mail: formobj.querySelector("[name=mail]"),
+            phone: formobj.querySelector("[name=phone]"),
+            terms: formobj.querySelector("[name=terms]")
+          };
+
+      // on form submit event handler
+      formobj.onsubmit = function() {
+        var regmail = /^([a-z0-9_\+\.-]+)@([a-z0-9_\.-]+)\.([a-z]{2,6})$/i;
+        return form.name.value.length >= 3 && (regmail).test(form.mail.value)
+            && form.terms.checked;
+      };
+    })('myform');
+  </script>
 </body>
 </html>
