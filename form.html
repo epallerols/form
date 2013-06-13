@@ -53,30 +53,40 @@
     // form Handler
     ; (function(formid) {
       var formobj = document.getElementById(formid)
+        // elements
         , form = {
             name: formobj.querySelector("[name=name]"),
             mail: formobj.querySelector("[name=mail]"),
             phone: formobj.querySelector("[name=phone]"),
             terms: formobj.querySelector("[name=terms]")
-          };
+        }
+        // validation functions
+        , valid = {
+            name: function(text) {
+              return text.length >= 3;
+            },
+            mail: function(text) {
+              var regm = /^([a-z0-9_\+\.-]+)@([a-z0-9_\.-]+)\.([a-z]{2,6})$/i;
+              return regm.test(text);
+            }
+        }
+      ;
 
       // on input name blur
       form.name.onblur = function() {
-        this.nextElementSibling.style.display = !(this.value.length >= 3) ? 
+        this.nextElementSibling.style.display = !valid.name(this.value) ? 
             'inline' : 'none';
       };
 
       // on input mail blur
       form.mail.onblur = function() {
-        var regmail = /^([a-z0-9_\+\.-]+)@([a-z0-9_\.-]+)\.([a-z]{2,6})$/i;
-        this.nextElementSibling.style.display = !((regmail).test(this.value)) ? 
+        this.nextElementSibling.style.display = !valid.mail(this.value) ? 
             'inline' : 'none';
       };
 
       // on form submit event handler
       formobj.onsubmit = function() {
-        var regmail = /^([a-z0-9_\+\.-]+)@([a-z0-9_\.-]+)\.([a-z]{2,6})$/i;
-        return form.name.value.length >= 3 && (regmail).test(form.mail.value)
+        return valid.name(form.name.value) && valid.mail(form.mail.value) 
             && form.terms.checked;
       };
     })('myform');
